@@ -1,5 +1,6 @@
 package com.co.constructores.pruebatecnica.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -8,20 +9,20 @@ import org.springframework.lang.NonNull;
 
 import java.util.Date;
 
-@Document(collection = "Project")
+@Document (collection = "ConstructionRequests")
+@Builder
 @Getter
 @Setter
-public class Project {
+public class ConstructionRequestEntity {
     @Id
-    private String id;
+    private String constructionRequestId;
     @NonNull
-    private String name;
+    private String state;
     @NonNull
-    private Date finishDate;
+    private Date initialDate;
+    @NonNull
+    private Date finalDate;
+    @NonNull
+    private ConstructionEntity constructionEntity;
 
-    public Project(String id, @NonNull String name, @NonNull Date finishDate) {
-        this.id = id;
-        this.name = name;
-        this.finishDate = finishDate;
-    }
 }
