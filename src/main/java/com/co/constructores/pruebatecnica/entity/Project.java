@@ -1,26 +1,27 @@
 package com.co.constructores.pruebatecnica.entity;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
-@Document (collection = "Materials")
+import java.util.Date;
+
+@Document(collection = "Project")
 @Getter
 @Setter
-public class Material {
+public class Project {
     @Id
     private String id;
     @NonNull
-    private String materialName;
+    private String name;
     @NonNull
-    private int quantity;
+    private Date finishDate;
 
-    public Material(String id, @NonNull String materialName, int quantity) {
+    public Project(String id, @NonNull String name, @NonNull Date finishDate) {
         this.id = id;
-        this.materialName = materialName;
-        this.quantity = quantity;
+        this.name = name;
+        this.finishDate = finishDate;
     }
 }
