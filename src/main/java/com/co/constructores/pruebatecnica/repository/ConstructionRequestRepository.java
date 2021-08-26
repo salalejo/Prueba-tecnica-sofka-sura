@@ -4,4 +4,5 @@ import com.co.constructores.pruebatecnica.entity.ConstructionRequestEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ConstructionRequestRepository extends MongoRepository<ConstructionRequestEntity, String> {
+    ConstructionRequestEntity findByCoordinateXAndCoordinateY(int xCoordinate, int yCoordinate);
 }

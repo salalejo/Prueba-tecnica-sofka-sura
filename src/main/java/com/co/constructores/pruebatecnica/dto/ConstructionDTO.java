@@ -17,7 +17,6 @@ public class ConstructionDTO {
     private int woodQuantity;
     private int brickQuantity;
     private int daysToBuild;
-    private int xCoordinate;
-    private int yCoordinate;
+
 
 }

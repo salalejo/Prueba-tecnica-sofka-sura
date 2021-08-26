@@ -29,9 +29,6 @@ public class ConstructionEntity {
     private int brickQuantity;
     @NonNull
     private int daysToBuild;
-    @NonNull
-    private int xCoordinate;
-    @NonNull
-    private int yCoordinate;
+
 
 }

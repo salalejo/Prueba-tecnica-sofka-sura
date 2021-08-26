@@ -15,10 +15,8 @@ import java.util.Date;
 @Setter
 public class ProjectEntity {
     @Id
-    private String projectId;
-    @NonNull
+    private String id;
     private String name;
-    @NonNull
     private Date finishDate;
 
 }

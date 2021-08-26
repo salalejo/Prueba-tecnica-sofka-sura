@@ -2,7 +2,9 @@ package com.co.constructores.pruebatecnica.mapper;
 
 import com.co.constructores.pruebatecnica.dto.ConstructionDTO;
 import com.co.constructores.pruebatecnica.entity.ConstructionEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConstructionMapper {
 
     public ConstructionDTO constructionEntityToDTO(ConstructionEntity constructionEntity){
@@ -15,8 +17,6 @@ public class ConstructionMapper {
                 .woodQuantity(constructionEntity.getWoodQuantity())
                 .brickQuantity(constructionEntity.getBrickQuantity())
                 .daysToBuild(constructionEntity.getDaysToBuild())
-                .xCoordinate(constructionEntity.getXCoordinate())
-                .yCoordinate(constructionEntity.getYCoordinate())
                 .build();
     }
 
@@ -30,8 +30,6 @@ public class ConstructionMapper {
                 .woodQuantity(constructionDTO.getWoodQuantity())
                 .brickQuantity(constructionDTO.getBrickQuantity())
                 .daysToBuild(constructionDTO.getDaysToBuild())
-                .xCoordinate(constructionDTO.getXCoordinate())
-                .yCoordinate(constructionDTO.getYCoordinate())
                 .build();
     }
 }

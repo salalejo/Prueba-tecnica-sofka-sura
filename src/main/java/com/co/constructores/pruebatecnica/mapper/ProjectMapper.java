@@ -7,7 +7,7 @@ public class ProjectMapper {
 
     public ProjectDTO projectEntityToDTO(ProjectEntity projectEntity){
         return ProjectDTO.builder()
-                .projectId(projectEntity.getProjectId())
+                .projectId(projectEntity.getId())
                 .name(projectEntity.getName())
                 .finishDate(projectEntity.getFinishDate())
                 .build();
@@ -15,7 +15,7 @@ public class ProjectMapper {
 
     public ProjectEntity projectDTOToEntity(ProjectDTO projectDTO){
         return ProjectEntity.builder()
-                .projectId(projectDTO.getProjectId())
+                .id(projectDTO.getProjectId())
                 .name(projectDTO.getName())
                 .finishDate(projectDTO.getFinishDate())
                 .build();

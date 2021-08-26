@@ -1,9 +1,12 @@
 package com.co.constructores.pruebatecnica.helpers;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
+@Component
 public class SetDates {
 
     public Date setInitialDate(Date date){

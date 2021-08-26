@@ -4,6 +4,7 @@ import com.co.constructores.pruebatecnica.entity.ConstructionEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.lang.NonNull;
 
 import java.util.Date;
 
@@ -16,5 +17,7 @@ public class ConstructionRequestDTO {
     private String state;
     private Date initialDate;
     private Date finalDate;
-    private ConstructionEntity constructionEntity;
+    private String constructionType;
+    private int xCoordinate;
+    private int yCoordinate;
 }

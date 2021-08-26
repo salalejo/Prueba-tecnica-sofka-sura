@@ -2,7 +2,9 @@ package com.co.constructores.pruebatecnica.mapper;
 
 import com.co.constructores.pruebatecnica.dto.ConstructionRequestDTO;
 import com.co.constructores.pruebatecnica.entity.ConstructionRequestEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConstructionRequestMapper {
     public ConstructionRequestDTO constructionRequestEntityToDTO(ConstructionRequestEntity constructionRequestEntity){
         return ConstructionRequestDTO.builder()
@@ -10,7 +12,9 @@ public class ConstructionRequestMapper {
                 .state(constructionRequestEntity.getState())
                 .initialDate(constructionRequestEntity.getInitialDate())
                 .finalDate(constructionRequestEntity.getFinalDate())
-                .constructionEntity(constructionRequestEntity.getConstructionEntity())
+                .constructionType(constructionRequestEntity.getConstructionType())
+                .xCoordinate(constructionRequestEntity.getCoordinateX())
+                .yCoordinate(constructionRequestEntity.getCoordinateY())
                 .build();
     }
 
@@ -20,7 +24,9 @@ public class ConstructionRequestMapper {
                 .state(constructionRequestDTO.getState())
                 .initialDate(constructionRequestDTO.getInitialDate())
                 .finalDate(constructionRequestDTO.getFinalDate())
-                .constructionEntity(constructionRequestDTO.getConstructionEntity())
+                .constructionType(constructionRequestDTO.getConstructionType())
+                .coordinateX(constructionRequestDTO.getXCoordinate())
+                .coordinateY(constructionRequestDTO.getYCoordinate())
                 .build();
     }
 }

@@ -16,13 +16,12 @@ import java.util.Date;
 public class ConstructionRequestEntity {
     @Id
     private String constructionRequestId;
-    @NonNull
     private String state;
-    @NonNull
     private Date initialDate;
-    @NonNull
     private Date finalDate;
-    @NonNull
-    private ConstructionEntity constructionEntity;
+    private String constructionType;
+    private int coordinateX;
+    private int coordinateY;
+
 
 }
