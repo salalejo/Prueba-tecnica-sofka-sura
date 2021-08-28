@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api")
 public class ConstructionRequestController {
 
