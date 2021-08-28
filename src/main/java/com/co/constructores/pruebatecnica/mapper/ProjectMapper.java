@@ -2,7 +2,9 @@ package com.co.constructores.pruebatecnica.mapper;
 
 import com.co.constructores.pruebatecnica.dto.ProjectDTO;
 import com.co.constructores.pruebatecnica.entity.ProjectEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProjectMapper {
 
     public ProjectDTO projectEntityToDTO(ProjectEntity projectEntity){

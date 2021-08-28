@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -147,6 +150,49 @@ public class ConstructionRequestService {
             startingConstruction.setState("Finished");
             constructionRequestRepository.save(startingConstruction);
         }
+    }
+
+    public ResponseDTO createReport(){
+        var pendingConstructions = constructionRequestRepository.findByState("pending");
+        var inProgressConstructions = constructionRequestRepository.findByState("In progress");
+        var finishedConstructions = constructionRequestRepository.findByState("Finished");
+
+        FileWriter flwritter = null;
+        try{
+            flwritter = new FileWriter("C:\\Users\\alejandro.salazar\\Desktop\\informe.txt");
+
+            BufferedWriter bfwriter= new BufferedWriter(flwritter);
+            bfwriter.write("Construcciones pendientes: \n ----------------------------- \n");
+            for(ConstructionRequestEntity constructionRequest : pendingConstructions){
+                bfwriter.write("- Construcción: "+constructionRequest.getConstructionType()+", Estado: "+constructionRequest.getState()+", Fecha de inicio de obras: " +
+                        constructionRequest.getInitialDate()+", Fecha de finalización de obras: "+constructionRequest.getFinalDate()+"\n");
+            }
+            bfwriter.write("\nConstrucciones en progreso: \n ----------------------------- \n");
+            for(ConstructionRequestEntity constructionRequest : inProgressConstructions){
+                bfwriter.write("- Construcción: "+constructionRequest.getConstructionType()+", Estado: "+constructionRequest.getState()+", Fecha de inicio de obras: " +
+                        constructionRequest.getInitialDate()+", Fecha de finalización de obras: "+constructionRequest.getFinalDate()+"\n");
+            }
+            bfwriter.write("\nConstrucciones finalizadas: \n ----------------------------- \n");
+            for(ConstructionRequestEntity constructionRequest : finishedConstructions){
+                bfwriter.write("- Construcción: "+constructionRequest.getConstructionType()+", Estado: "+constructionRequest.getState()+", Fecha de inicio de obras: " +
+                        constructionRequest.getInitialDate()+", Fecha de finalización de obras: "+constructionRequest.getFinalDate()+"\n");
+            }
+            bfwriter.close();
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally {
+            if (flwritter != null){
+                try{
+                    flwritter.close();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+        return new ResponseDTO("Informe generado con exito");
     }
 
 

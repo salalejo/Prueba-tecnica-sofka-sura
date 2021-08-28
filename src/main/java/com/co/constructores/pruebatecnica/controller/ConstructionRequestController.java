@@ -17,9 +17,14 @@ public class ConstructionRequestController {
     @Autowired
     private ConstructionRequestService constructionRequestService;
 
-    @PostMapping("/project")
-    public ResponseEntity<String> getProject(@RequestBody ConstructionRequestDTO dto) throws ParseException {
+    @PostMapping("/createcr")
+    public ResponseEntity<String> createConstructionRequest(@RequestBody ConstructionRequestDTO dto) throws ParseException {
         return new ResponseEntity<>(constructionRequestService.createConstructionRequest(dto).getMessage(), HttpStatus.OK);
+    }
+
+    @GetMapping("/informe")
+    public ResponseEntity<String> getReport() {
+        return new ResponseEntity<>(constructionRequestService.createReport().getMessage(), HttpStatus.OK);
     }
 
 

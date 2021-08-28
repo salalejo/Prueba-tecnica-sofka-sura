@@ -2,7 +2,9 @@ package com.co.constructores.pruebatecnica.mapper;
 
 import com.co.constructores.pruebatecnica.dto.MaterialDTO;
 import com.co.constructores.pruebatecnica.entity.MaterialEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MaterialMapper {
 
     public MaterialDTO materialEntityToDTO(MaterialEntity materialEntity){
