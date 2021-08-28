@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
@@ -159,7 +160,7 @@ public class ConstructionRequestService {
 
         FileWriter flwritter = null;
         try{
-            flwritter = new FileWriter("C:\\Users\\alejandro.salazar\\Desktop\\informe.txt");
+            flwritter = new FileWriter(new File(System.getProperty("user.home"), "Desktop\\INFORME.txt"));
 
             BufferedWriter bfwriter= new BufferedWriter(flwritter);
             bfwriter.write("Construcciones pendientes: \n ----------------------------- \n");
