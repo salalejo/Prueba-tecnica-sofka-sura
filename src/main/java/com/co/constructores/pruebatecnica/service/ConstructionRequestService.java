@@ -70,7 +70,7 @@ public class ConstructionRequestService {
 
 
 
-        return new ResponseDTO("Solicitud creada satisfactoriamente, tu proyecto se comenzará a construir el: ");
+        return new ResponseDTO("Solicitud creada satisfactoriamente, tu proyecto se comenzará a construir el: "+constructionRequestEntity.getInitialDate());
     }
 
     private void subtractMaterials(ConstructionEntity constructionEntity) {
@@ -194,6 +194,33 @@ public class ConstructionRequestService {
         }
 
         return new ResponseDTO("Informe generado con exito");
+    }
+
+    public ResponseDTO showReport(){
+        var pendingConstructions = constructionRequestRepository.findByState("pending");
+        var inProgressConstructions = constructionRequestRepository.findByState("In progress");
+        var finishedConstructions = constructionRequestRepository.findByState("Finished");
+
+        var report = "";
+        report=report+("Construcciones pendientes: \n ----------------------------- \n");
+            for(ConstructionRequestEntity constructionRequest : pendingConstructions){
+                report=report+("- Construcción: "+constructionRequest.getConstructionType()+", Estado: "+constructionRequest.getState()+", Fecha de inicio de obras: " +
+                        constructionRequest.getInitialDate()+", Fecha de finalización de obras: "+constructionRequest.getFinalDate()+"\n");
+            }
+        report=report+("\nConstrucciones en progreso: \n ----------------------------- \n");
+            for(ConstructionRequestEntity constructionRequest : inProgressConstructions){
+                report=report+("- Construcción: "+constructionRequest.getConstructionType()+", Estado: "+constructionRequest.getState()+", Fecha de inicio de obras: " +
+                        constructionRequest.getInitialDate()+", Fecha de finalización de obras: "+constructionRequest.getFinalDate()+"\n");
+            }
+        report=report+("\nConstrucciones finalizadas: \n ----------------------------- \n");
+            for(ConstructionRequestEntity constructionRequest : finishedConstructions){
+                report=report+("- Construcción: "+constructionRequest.getConstructionType()+", Estado: "+constructionRequest.getState()+", Fecha de inicio de obras: " +
+                        constructionRequest.getInitialDate()+", Fecha de finalización de obras: "+constructionRequest.getFinalDate()+"\n");
+            }
+
+
+
+        return new ResponseDTO(report);
     }
 
 

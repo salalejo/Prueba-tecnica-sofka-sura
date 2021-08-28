@@ -1,7 +1,6 @@
 package com.co.constructores.pruebatecnica.controller;
 
 import com.co.constructores.pruebatecnica.dto.ConstructionRequestDTO;
-import com.co.constructores.pruebatecnica.dto.ResponseDTO;
 import com.co.constructores.pruebatecnica.service.ConstructionRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +23,8 @@ public class ConstructionRequestController {
     }
 
     @GetMapping("/informe")
-    public ResponseEntity<String> getReport() {
-        return new ResponseEntity<>(constructionRequestService.createReport().getMessage(), HttpStatus.OK);
+    public ResponseEntity<String> showReport() {
+        return new ResponseEntity<>(constructionRequestService.showReport().getMessage(), HttpStatus.OK);
     }
 
 
