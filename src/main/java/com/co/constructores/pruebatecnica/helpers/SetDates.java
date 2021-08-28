@@ -1,5 +1,6 @@
 package com.co.constructores.pruebatecnica.helpers;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -29,5 +30,7 @@ public class SetDates {
         date = calendar.getTime();
         return date;
     }
+
+
 
 }

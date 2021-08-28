@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @RestController
 @RequestMapping("/api")
 public class ConstructionRequestController {
@@ -16,7 +18,7 @@ public class ConstructionRequestController {
     private ConstructionRequestService constructionRequestService;
 
     @PostMapping("/project")
-    public ResponseEntity<String> getProject(@RequestBody ConstructionRequestDTO dto){
+    public ResponseEntity<String> getProject(@RequestBody ConstructionRequestDTO dto) throws ParseException {
         return new ResponseEntity<>(constructionRequestService.createConstructionRequest(dto).getMessage(), HttpStatus.OK);
     }
 

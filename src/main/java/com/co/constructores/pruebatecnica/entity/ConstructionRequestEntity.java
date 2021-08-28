@@ -17,8 +17,8 @@ public class ConstructionRequestEntity {
     @Id
     private String constructionRequestId;
     private String state;
-    private Date initialDate;
-    private Date finalDate;
+    private String initialDate;
+    private String finalDate;
     private String constructionType;
     private int coordinateX;
     private int coordinateY;

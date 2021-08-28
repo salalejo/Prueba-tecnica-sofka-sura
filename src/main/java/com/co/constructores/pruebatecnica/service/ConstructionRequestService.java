@@ -11,7 +11,14 @@ import com.co.constructores.pruebatecnica.repository.ConstructionRequestReposito
 import com.co.constructores.pruebatecnica.repository.MaterialRepository;
 import com.co.constructores.pruebatecnica.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 @Service
 public class ConstructionRequestService {
@@ -29,16 +36,19 @@ public class ConstructionRequestService {
     @Autowired
     private MaterialRepository materialRepository;
 
-    public ResponseDTO createConstructionRequest(ConstructionRequestDTO constructionRequestDTO){
+    public ResponseDTO createConstructionRequest(ConstructionRequestDTO constructionRequestDTO) throws ParseException {
         var constructionRequestEntity = constructionRequestMapper.constructionRequestDTOToEntity(constructionRequestDTO);
         var project = projectRepository.findAll().get(0);
         var constructionType = constructionRequestEntity.getConstructionType();
         var constructionEntity = constructionRepository.findByConstructionType(constructionType);
         var daysToConstruct = constructionEntity.getDaysToBuild();
 
-        constructionRequestEntity.setInitialDate(setDates.setInitialDate(project.getFinishDate()));
-        constructionRequestEntity.setFinalDate(setDates.setFinalDate(constructionRequestEntity.getInitialDate(),daysToConstruct));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        constructionRequestEntity.setInitialDate(dateFormat.format(setDates.setInitialDate(project.getFinishDate())));
+        constructionRequestEntity.setFinalDate(dateFormat.format(setDates.setFinalDate(dateFormat.parse(constructionRequestEntity.getInitialDate()),daysToConstruct)));
         constructionRequestEntity.setState("pending");
+
 
         if(validateIfCoordinatesAreOcuppied(constructionRequestEntity)){
             return new ResponseDTO("No se puede crear su solicitud las coordenadas ya están ocupadas");
@@ -48,11 +58,15 @@ public class ConstructionRequestService {
             return new ResponseDTO("No se puede crear su solicitud, no hay materiales suficientes");
         };
 
+        constructionRequestRepository.save(constructionRequestEntity);
         subtractMaterials(constructionEntity);
 
-        constructionRequestRepository.save(constructionRequestEntity);
+        project.setFinishDate(dateFormat.parse(constructionRequestEntity.getFinalDate()));
+        projectRepository.save(project);
 
-        return new ResponseDTO(constructionRequestEntity.getConstructionType());
+
+
+        return new ResponseDTO("Solicitud creada satisfactoriamente, tu proyecto se comenzará a construir el: ");
     }
 
     private void subtractMaterials(ConstructionEntity constructionEntity) {
@@ -79,6 +93,8 @@ public class ConstructionRequestService {
     }
 
 
+
+
     private boolean validateIfEnoughMaterials(ConstructionEntity constructionEntity) {
 
         var actualCementQuantity = materialRepository.findByMaterialName("cement").getQuantity();
@@ -87,11 +103,7 @@ public class ConstructionRequestService {
         var actualWoodQuantity = materialRepository.findByMaterialName("wood").getQuantity();
         var actualBrickQuantity = materialRepository.findByMaterialName("brick").getQuantity();
         boolean isEnoughMaterials;
-        if(actualBrickQuantity>= constructionEntity.getBrickQuantity() && actualWoodQuantity>= constructionEntity.getWoodQuantity() && actualCementQuantity>= constructionEntity.getCementQuantity() && actualGravelQuantity>= constructionEntity.getGravelQuantity() && actualSandQuantity>= constructionEntity.getSandQuantity()){
-            isEnoughMaterials = true;
-        }else{
-            isEnoughMaterials = false;
-        }
+        isEnoughMaterials = actualBrickQuantity >= constructionEntity.getBrickQuantity() && actualWoodQuantity >= constructionEntity.getWoodQuantity() && actualCementQuantity >= constructionEntity.getCementQuantity() && actualGravelQuantity >= constructionEntity.getGravelQuantity() && actualSandQuantity >= constructionEntity.getSandQuantity();
         return isEnoughMaterials;
     }
 
@@ -104,12 +116,37 @@ public class ConstructionRequestService {
 
         var constructionInCoordinates = constructionRequestRepository.findByCoordinateXAndCoordinateY(xCoordinate,yCoordinate);
         boolean isTerrainOcupied;
-        if(constructionInCoordinates!=null){
-            isTerrainOcupied = true;
-        }else{
-            isTerrainOcupied = false;
-        }
+        isTerrainOcupied = constructionInCoordinates != null;
         return isTerrainOcupied;
+    }
+
+    //this service runs everyday at 7am
+    @Scheduled(cron="0 0 7 * * *")
+    private void verifyStartPendingConstruction(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        var actualDate = dateFormat.format(new Date());
+
+        var startingConstruction = constructionRequestRepository.findByInitialDateStartsWith(actualDate);
+
+        if(startingConstruction != null && startingConstruction.getState().equals("pending")){
+            startingConstruction.setState("In progress");
+            constructionRequestRepository.save(startingConstruction);
+        }
+
+    }
+
+    //this service runs everyday at 7pm
+    @Scheduled(cron="0 0 19 * * *")
+    private void verifyFinishedConstruction(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        var actualDate = dateFormat.format(new Date());
+
+        var startingConstruction = constructionRequestRepository.findByFinalDateStartsWith(actualDate);
+
+        if(startingConstruction != null && startingConstruction.getState().equals("In progress")){
+            startingConstruction.setState("Finished");
+            constructionRequestRepository.save(startingConstruction);
+        }
     }
 
 
