@@ -20,3 +20,9 @@ Endpoint: https://constructores-sas.herokuapp.com/api/fechafinal
 SERVICIO 4:
 Añadir materiales al stock de cada uno
 Endpoint: https://constructores-sas.herokuapp.com/api/addmaterial
+
+SERVICIO 5:
+Verificar todos los días a las 7 am si hay alguna construcción que deba comenzar ese día y cambiar su estado de "pending" a "In progress"
+
+SERVICIO 6:
+Verificar todos los días a las 7pm si hay alguna construcción que deba terminar ese día y cambiar su estado de "In progress" a "Finished"
